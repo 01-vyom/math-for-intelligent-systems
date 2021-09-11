@@ -1,0 +1,220 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{minted}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{automata,positioning}
+\usepackage{fullpage,enumitem,amsmath,amssymb,graphicx}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.75in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.20in
+\headheight = 12pt
+\linespread{1.1}
+
+\pagestyle{fancy}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.55pt}
+\renewcommand\footrulewidth{0.55pt}
+
+\setlength\parindent{0pt}
+
+
+\setcounter{secnumdepth}{0}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#1}
+\newcommand{\hmwkDueDate}{September 06, 2021}
+\newcommand{\hmwkClassCode}{COT 5615}
+\newcommand{\hmwkClass}{Math for Intelligent Systems}
+\newcommand{\hmwkClassYear}{Fall 2021}
+\newcommand{\hmwkClassInstructor}{Professor Kejun Huang}
+\newcommand{\hmwkAuthorName}{\textit{Vyom Pathak}}
+\newcommand{\hmwkUFID}{96703101}
+
+%
+%
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\begin{center}
+{\Large \hmwkClassCode\ \hmwkClass\ \hmwkClassYear\ \hmwkTitle}
+
+\begin{tabular}{rl}
+UFID: & \hmwkUFID \\
+Name: & \hmwkAuthorName \\
+Instructor: & \hmwkClassInstructor \\
+Due Date: & \hmwkDueDate \\ 
+% Collaborators: & [list all the people you worked with]
+\end{tabular}
+\end{center}
+
+\section*{Problem 1.7}
+\subsection*{Transforming between two encodings for Boolean vectors}
+\subsubsection*{Solution}
+Vector $y$ in terms of $x$ can be shown as follows: $y = 2x - 1$. \\ Ex: 
+when $x_i = 1$ we get $y_i = 2 \cdot 1-1 = + 1$; and when $x_i = 0$ we get $y_i = 2 \cdot 0-1 = -1$.\\
+Similarly, $x$ in terms of $y$ can be shown as follows: $x = (1/2)(y + 1)$
+
+\section*{Problem 1.13}
+\subsection*{Average age in a population}
+\subsubsection*{Solution}
+\begin{enumerate}[label=(\alph*)]
+  \item The total population can be calculated as $1^Tx$
+  \item The total number of people aged 65 or over can be calculated as $a^Tx$ where $a = (0_{65},1_{35})$ 
+  \item The average age of the population can be calculated as
+  \begin{align*}
+    % \begin{equation}
+        \frac{(0, 1, 2, ... , 99)^Tx}{1^Tx}
+    % \end{equation}
+\end{align*}
+\end{enumerate}
+
+\section*{Problem 1.17}
+\subsection*{Linear combinations of cash flows}
+\subsubsection*{Solution}
+  From the given details, $c$ can be written as follows, 
+  \begin{align*}
+      c = (1,0,\ldots,0,-(1+r)^{T-1})
+  \end{align*}
+Single period loan, at time period $t$ can be written as follows,
+\begin{align*}
+    l_t = (0,\ldots,0,1,-(1+r),0,\ldots,0),\ \  t = 1,\ldots,T-1
+\end{align*}
+So, solution is to take a new loan each time period to cover the amount you owe up until that period. So, after taking \$1 in period 1, we take out a loan for \$(1+r) in period 2, and end up owing \$(1+r)$^2$ in period 3. Then we take out a loan for \$(1+r)$^2$ in period 3, and so on. Therefore, We can express the $c$ vector using the above loan period definition as follows,
+\begin{align*}
+    (1,0,\ldots,0,-(1+r)^{T-1}) = (1,-(1+r),0,0,\ldots,0,0) + (0,1,-(1+r),0,0,\ldots,0,0)\cdot(1+r) \\  + (0,0,1,-(1+r),0,0,\ldots,0,0)\cdot(1+r)^2 + \ldots + (0,0,\ldots,0,1,-(1+r))\cdot(1+r)^{T-2}  
+\end{align*}
+This can be further simplified as follows,
+\begin{align*}
+    c = l_1 + l_2\cdot(1+r) + l_3\cdot(1+r)^2 + \ldots + l_{T-1}\cdot(1+r)^{T-2}
+\end{align*}
+Here, the coefficients of linear combinations are $1, 1+r, (1+r)^2, \ldots, (1+r)^{T-2}$.
+\section*{Problem A1.2}
+\subsection*{Creating vectors in Julia}
+\subsubsection*{Solution}
+\begin{enumerate}[label=(\alph*)]
+
+  \begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos
+]{julia}
+    #a)
+    a = (1:10 .== 5)
+    x = rand(10)
+    print(transpose(a)*x,"\n")
+    #b)
+    a = [0.3, 0.4, 0.3]
+    x = rand(3)
+    print(transpose(a)*x,"\n")
+    #c)
+    x = rand(22)
+    a = zeros(22)
+    for i in 1:22
+        if mod(i,4) == 0
+             a[i] = 1
+        elseif mod(i,7) == 0
+             a[i] = -1
+        end
+    end
+    print(transpose(a)*x,"\n")
+    #d)
+    x = rand(11)
+    a = zeros(11)
+    a[convert(Int32,((length(a)-5)//2))+1:convert(Int32,((length(a)+5)//2))] = ones(5)
+    print(transpose(a)*x/5)
+\end{minted}
+\end{enumerate}
+
+\section*{Problem A1.6}
+\subsubsection*{Solution}
+For any inner product, we need $n$ multiplications and $n-1$ additions, so in total we generate $2n-1$ flops. Thus for $10^6$-vector inner product, we generate 11 flops which are calculated in 0.001 seconds. Now, for $10^7$-vector inner product, we generate 13 flops which are thus calculated in $(13\cdot0.001)/11 = 0.0011\overline{81}$ seconds.
+
+\section*{Problem 2.4}
+\subsection*{Linear function}
+\subsubsection*{Solution}
+$\phi$ cannot be linear. Here, the third
+point $(1, -1, -1)$ is the opposite of the second point $(-1, 1, 1)$. If $\phi$ were linear, the two values of $\phi$ would need to be opposite (negative) of each other. But they are both 1 and 1. Thus, the function is not linear.
+\section*{Problem 2.8}
+\subsection*{Integral and derivative of polynomial}
+\subsubsection*{Solution}
+
+\begin{enumerate}[label=(\alph*)]
+\item Here the integration is calculated as follows
+\begin{align*}
+    \int_{\alpha}^{\beta} p(x)\ dx = c_1(\beta - \alpha) + \frac{c_2}{2}(\beta^2 - \alpha^2) + \ldots +  \frac{c_n}{n}(\beta^n - \alpha^n)
+\end{align*}
+Therefore,
+\begin{align*}
+    \alpha = (\beta - \alpha , \frac{\beta^2 - \alpha^2}{2} , \ldots ,  \frac{\beta^n - \alpha^n}{n})
+\end{align*}
+\item Here the derivation at $\hat x$ is calculated as follows
+\begin{align*}
+p'(\alpha) = c_2 + 2c_3\alpha + 3c_4\alpha^{2} +  \ldots +  (n-1)c_n\alpha^{n-2}
+\end{align*}
+Therefore,
+\begin{align*}
+b = (0,1,2\alpha,3\alpha^{2} ,  \ldots ,  (n-1)\alpha^{n-2})
+\end{align*}
+\end{enumerate}
+\end{document}
