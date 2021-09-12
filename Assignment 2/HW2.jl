@@ -3,27 +3,23 @@ x1 = (4,3,5), x2 = (0.4,10,50), x3 = (1,4,10), x4 = (30,40,50).
 Report the minimum distance of a to x1, . . . , x4. Also, find which of x1, . . . , x4 makes the smallest
 angle with a and report that angle.
 =#
-
-
-# using LinearAlgebra
-# a=[1,3,4]
-# xn = [[4,3,5],[0.4,10,50],[1,4,10],[30,40,50]]
-# dist = []
-# angle = []
-# for i in 1:4
-#     ntp = norm(a-xn[i])
-#     # println("Distance of a from x$i $ntp")
-#     push!(dist, ntp)
-# end
-# println("Minimum distance from a to x1,...,x4 is ",string(minimum(dist)))
-# for i in 1:4
-#     atp = acos((a'xn[i])/(norm(a)*norm(xn[i])))
-#     # println("Angle between a and x$i $atp")
-#     push!(angle, atp)
-# end
-# println("Minimum angle between a and x1,...,x4 is ",string(minimum(angle)))
-
-
+using LinearAlgebra
+a=[1,3,4]
+xn = [[4,3,5],[0.4,10,50],[1,4,10],[30,40,50]]
+dist = []
+angle = []
+for i in 1:4
+    ntp = norm(a-xn[i])
+    # println("Distance of a from x$i $ntp")
+    push!(dist, ntp)
+end
+println("Minimum distance from a to x1,...,x4 is ",string(minimum(dist)))
+for i in 1:4
+    atp = acos((a'xn[i])/(norm(a)*norm(xn[i])))
+    # println("Angle between a and x$i $atp")
+    push!(angle, atp)
+end
+println("Minimum angle between a and x1,...,x4 is ",string(minimum(angle)))
 #= A4.2) In this problem you will use k-means to cluster 300 Wikipedia articles selected from 5 broad groups of topics. 
 The Julia file wikipedia_corpus.jl contains the histograms as a list of 300 1000-vectors in the variable article_histograms. 
 It also provides the list of article titles in article_titles and a list of the 1000 words used to create the histograms in dictionary.
@@ -63,7 +59,7 @@ using LinearAlgebra
 using SparseArrays
 using Plots
 pyplot()
-#a)
+#b)
 centroids, labels, j_hist = Kmeans.kmeans(article_histograms, 2);
 centroids_2, labels_2, j_hist_2 = Kmeans.kmeans(article_histograms, 2);
 itr1 = []
