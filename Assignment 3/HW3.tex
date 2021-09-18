@@ -1,0 +1,171 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{minted}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{automata,positioning}
+\usepackage{fullpage,enumitem,amsmath,amssymb,graphicx}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.75in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.20in
+\headheight = 12pt
+\linespread{1.1}
+
+\pagestyle{fancy}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.55pt}
+\renewcommand\footrulewidth{0.55pt}
+
+\setlength\parindent{0pt}
+
+
+\setcounter{secnumdepth}{0}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#3}
+\newcommand{\hmwkDueDate}{September 22, 2021}
+\newcommand{\hmwkClassCode}{COT 5615}
+\newcommand{\hmwkClass}{Math for Intelligent Systems}
+\newcommand{\hmwkClassYear}{Fall 2021}
+\newcommand{\hmwkClassInstructor}{Professor Kejun Huang}
+\newcommand{\hmwkAuthorName}{\textit{Vyom Pathak}}
+\newcommand{\hmwkUFID}{96703101}
+
+%
+%
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+% norm bars
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\begin{document}
+
+\begin{center}
+{\Large \hmwkClassCode\ \hmwkClass\ \hmwkClassYear\ \hmwkTitle}
+
+\begin{tabular}{rl}
+UFID: & \hmwkUFID \\
+Name: & \hmwkAuthorName \\
+Instructor: & \hmwkClassInstructor \\
+Due Date: & \hmwkDueDate \\ 
+% Collaborators: & [list all the people you worked with]
+\end{tabular}
+\end{center}
+
+\section*{Problem 5.2}
+\subsection*{A surprising discovery}
+\subsubsection*{Solution}
+According to me, the supervisor is wrong and the intern is probably correct. Here because of the independence-dimension inequality rule, any set collection of n+1 or more n-vectors is linearly dependent; and she is analysing 400 250-vector stocks, and thus this set is linearly dependent. Thus, return of any stock i.e. Google can be expressed as a linear combination of the return of other stocks.
+Here, this fact is only valid for present return stock value; and in the near future, this fact might change i.e. Google's return stock might not be expressed as a linear combination of the return of other stocks and thus, is not very useful from monetary perspective.
+\section*{Problem 5.5}
+\subsection*{Orthogonalizing vectors}
+\subsubsection*{Solution}
+Two vectors are orthogonal, if their inner product is zero i.e. we have to find $\gamma$ such that $(a-\gamma b)^Tb=a^Tb-\gamma b^T b=0$. Now, if $b=0$, then any value of $\gamma$ will yield $(a-\gamma b)\perp b$ true as all vectors are orthogonal to 0. If $b\neq0$, $b^Tb = \norm{b}^2\neq0$; then we can take $\gamma=a^Tb/b^Tb$, which proves that $(a-\gamma b)\perp b$ is true.
+\section*{Problem 5.9}
+\subsubsection*{Solution}
+The Gram-Schmidt algorithm requires $n\cdot k^2$ flops, and thus for $n=10^4$ and $k=2$, $2\cdot 10^{10}$ flops are calculated in 2 seconds. Therefore, for $\widetilde{n}=10^3$ and $\widetilde{k}=500$, we can get the run-time of the Gram-Schmidt Algorithm as follows:
+$(2(2\cdot1000\cdot(500)^2))/(2\cdot 10^{10}) = 0.05$ seconds.
+\section*{Problem 6.17}
+\subsection*{Stacked matrix}
+\subsubsection*{Solution}
+\begin{enumerate}[label=\alph*]
+    \item Let's assume $Sx=0$, thus $Sx = (Ax,x) = 0$, which implies $x=0$. In conclusion, S always has linearly independent columns.
+    \item S has m+n rows and each row is n-dimension wide. Thus, according to the independence-dimension inequality rule, S can never have linearly independent rows i.e. rows are dependent.
+\end{enumerate}
+\section*{Problem A6.8}
+\subsubsection*{Solution}
+\begin{enumerate}[label=\alph*]
+    \item The columns of matrix A (mXn) may be linearly independent if for $Ax=0$ implies $x=0$ when the number of columns is less than or equal to number of rows [$n\leq m$]. 
+    \item The rows of matrix A (mXn) may be linearly independent if for $Ax=0$ implies $x=0$ when the number of rows is less than or equal to number of columns [$m \leq n$].
+\end{enumerate}
+\section*{Problem 6.18}
+\subsection*{Vandermonde matrices}
+\subsubsection*{Solution}
+Here Vc vector represents the values of the polynomial at $t_1,t_2,\ldots,t_m$ as follows:
+\begin{align*}
+    Vc & = (c_1+c_2t_1+c_3t_1^2+\ldots+c_nt_1^{n-1}, c_1+c_2t_2+c_3t_2^2+\ldots+c_nt_2^{n-1},\ldots,c_1+c_2t_m+c_3t_m^2+\ldots+c_nt_m^{n-1})\\
+    & = (p(t_1),p(t_2),\ldots,p(t_n))
+\end{align*}
+Now, if $Vc = 0$, then $p(t_i)$ is also 0 for $i =1,2,\ldots,m$; thus p(t) has atleast m distinct roots $t_1,t_2,\ldots,t_m$. This is only possible if all the coefficients of p are 0 i.e. c=0. Therefore, $Vc=0$ implies $c=0$, which proves that the columns of V [Vandermonde Matrix] are linearly independent. 
+\section*{Problem A6.2}
+\subsection*{Vandermonde matrices in Julia}
+\subsubsection*{Solution}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos
+]{julia}
+using LinearAlgebra
+function Vandermonde_generator(n,m)
+    v = ones(length(m),n)
+    for i in 1:n
+        mnew = m.^(i-1)
+        for j in 1:length(m)
+            v[j,i] = mnew[j]
+        end
+    end
+    display(v)
+end
+Vandermonde_generator(5,[5,6,7])
+Vandermonde_generator(5,[7,8,6])
+\end{minted}
+\end{document}
