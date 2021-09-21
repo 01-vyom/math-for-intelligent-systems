@@ -24,4 +24,5 @@ print(transpose(a)*x,"\n")
 x = rand(11)
 a = zeros(11)
 a[convert(Int32,((length(a)-5)//2))+1:convert(Int32,((length(a)+5)//2))] = ones(5)
-print(transpose(a)*x/5)
+a = a./5
+print(transpose(a)*x)

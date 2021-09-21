@@ -20,6 +20,7 @@ for i in 1:4
     push!(angle, atp)
 end
 println("Minimum angle between a and x1,...,x4 is ",string(minimum(angle)))
+
 #= A4.2) In this problem you will use k-means to cluster 300 Wikipedia articles selected from 5 broad groups of topics. 
 The Julia file wikipedia_corpus.jl contains the histograms as a list of 300 1000-vectors in the variable article_histograms. 
 It also provides the list of article titles in article_titles and a list of the 1000 words used to create the histograms in dictionary.
@@ -51,7 +52,6 @@ Comment briefly on your results.
 Feel free to visit Wikipedia if an article’s content is unclear from its title. Give a short description of the topics your 
 clustering discovered along with the 3 most common words from each topic. If the topics do not make sense pick another value of k.
 =#
-#a)
 include("wikipedia_corpus.jl")
 include("kmeans.jl")
 using Statistics
@@ -59,7 +59,7 @@ using LinearAlgebra
 using SparseArrays
 using Plots
 pyplot()
-#b)
+#a)
 centroids, labels, j_hist = Kmeans.kmeans(article_histograms, 2);
 centroids_2, labels_2, j_hist_2 = Kmeans.kmeans(article_histograms, 2);
 itr1 = []
