@@ -214,10 +214,28 @@ Here $t_i$ where $i=1\ldots 4$ are the values of the vector $t=(-0.6, -0.2, 0.2,
 \end{align*}
 By solving it using left-inverse and matrix multiplication, we get the following values of w:
 \begin{align*}
-    w_1 = 1.4375\ ,\ w_2 = -0.4375\ ,\ w_3=-0.4375\ ,\ w_4=1.4375
+    w_1 = 0.9166\ ,\ w_2 = 0.0833\ ,\ w_3=0.0833\ ,\ w_4 = 0.9166
 \end{align*}
 Furthermore, for solving $f(t)=e^x$ we get the following values:
 \begin{align*}
-    \alpha = 2.3504\ ,\ \hat{\alpha}=2.5157
+    \alpha = 2.3504\ ,\ \hat{\alpha}=2.3433
 \end{align*}
+Following is the code for the above calculation:
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos
+]{julia}
+    A = [1 1 1 1; -0.6 -0.2 0.2 0.6; (-0.6)^2 (-0.2)^2 (0.2)^2 (0.6)^2; (-0.6)^3 (-0.2)^3 (0.2)^3 (0.6)^3];
+    b = [2 0 (2/3) 0]';
+    W = A\b;
+    f(x) = exp(x);
+    alpha_cap = f.([-0.6 -0.2 0.2 0.6])*W;
+    alpha = exp(1)-exp(-1);
+    display(W);
+    display(alpha_cap);
+    display(alpha);
+    \end{minted}
 \end{document}
