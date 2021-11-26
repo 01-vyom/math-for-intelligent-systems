@@ -1,0 +1,194 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{minted}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usetikzlibrary{automata,positioning}
+\usepackage{fullpage,enumitem,amsmath,amssymb,graphicx}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.75in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.20in
+\headheight = 12pt
+\linespread{1.1}
+
+\pagestyle{fancy}
+\chead{\hmwkClass\ (\hmwkClassInstructor): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.55pt}
+\renewcommand\footrulewidth{0.55pt}
+
+\setlength\parindent{0pt}
+
+
+\setcounter{secnumdepth}{0}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#8}
+\newcommand{\hmwkDueDate}{November 23, 2021}
+\newcommand{\hmwkClassCode}{COT 5615}
+\newcommand{\hmwkClass}{Math for Intelligent Systems}
+\newcommand{\hmwkClassYear}{Fall 2021}
+\newcommand{\hmwkClassInstructor}{Professor Kejun Huang}
+\newcommand{\hmwkAuthorName}{\textit{Vyom Pathak}}
+\newcommand{\hmwkUFID}{96703101}
+
+%
+%
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+% norm bars
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\begin{document}
+
+\begin{center}
+{\Large \hmwkClassCode\ \hmwkClass\ \hmwkClassYear\ \hmwkTitle}
+
+\begin{tabular}{rl}
+UFID: & \hmwkUFID \\
+Name: & \hmwkAuthorName \\
+Instructor: & \hmwkClassInstructor \\
+Due Date: & \hmwkDueDate \\ 
+% Collaborators: & [list all the people you worked with]
+\end{tabular}
+\end{center}
+
+\section*{Problem A16.2}
+\subsection*{Julia timing test for least-norm}
+\subsubsection*{Solution}
+Following is the code to calculate the time take for the least-norm problem:
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos
+]{julia}
+    
+    m = 600
+    n = 4000
+    A = rand(m,n);
+    b = rand(m);
+    @time A\b;
+    @time A\b;
+    @time A\b;
+    @time A\b;
+    @time A\b;
+  #1.609742 seconds (488.74 k allocations: 69.135 MiB, 11.70% compilation time)
+  #1.308426 seconds (3.64 k allocations: 41.110 MiB)
+  #1.295313 seconds (3.64 k allocations: 41.110 MiB, 0.97% gc time)
+  #1.341974 seconds (3.64 k allocations: 41.110 MiB, 3.30% gc time)
+  #1.316347 seconds (3.64 k allocations: 41.110 MiB)
+    \end{minted}
+The approximate time taken is  $1.312\ seconds$. The approximate flop rate is given as : $\frac{2nm^2}{average\_time} = \frac{2*4000*(600)^2}{1.312} = 2.195\ GFlops/second$.
+\section*{Problem A16.3}
+\subsection*{Constrained least squares in Julia}
+\subsubsection*{Solution}
+The following code is used to find constrained least square solution along with the Lagrangian's multiplier:
+    \begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\footnotesize,
+linenos
+]{julia}
+    using LinearAlgebra
+    m = 10000
+    n = 1000
+    p = 100
+    
+    A = rand(m,n);
+    b = rand(m,1);
+    C = rand(p,n);
+    d = rand(p,1);
+    KKT =  [2*A'A C';C zeros(p,p)]\[2*A'b;d];
+    
+    print("x hat (solution): \n");
+    display(KKT[1:n,1]);
+    print("\n Lagrange Multiplier: \n");
+    display(KKT[n+1:n+p,1]);
+
+    \end{minted}
+\section*{Problem A16.4}
+\subsection*{Varying the right-hand sides in linearly constrained least squares}
+\subsubsection*{Solution}
+The colleague is correct. We can find $F$ and $G$ using the formula for finding $\hat{x}$ from the QR factorization: 
+\begin{align*}
+    R\hat{x} & = Q^T_1 b - (1/2)Q^T_2 w\\
+    R\hat{x} & = Q^T_1 b - (1/2)Q^T_2 (z-2d)\ [\because w = z-2d]\\
+    R\hat{x} & = Q^T_1 b - (1/2)Q^T_2 z + Q^T_2d\\
+    R\hat{x} & = Q^T_1 b + Q^T_2d\  [\because The\ columns\ of\ Q^T_2\ are\ linearly\ independent\ which\ implies\ that\ z = 0]\\
+    \hat{x} & = R^{-1} Q^T_1 b + R^{-1}Q^T_2d\\
+\end{align*}
+Thus, for the solution eqaution $\hat{x} = Fb+Gd$, we get $F = R^{-1}Q^T_1$ and $G = R^{-1}Q^T_2$.
+\section*{Problem 4}
+\subsection*{LDLT Factorization for constrained least squares}
+\subsubsection*{Solution}
+Here, we are trying to minimize $\norm{y}^2$ with constraints $Ax + y = b$. This can also be written as $\norm{A_nX_n-b_n}^2$ with $CX_n=d$, where $X_n = (x, y)$, $C = [A_n;I]$, $A_n = (0,0;0,I)$, $b_n = (0,0)$, $d=b$.\\
+Now, $(2A^T_nA_n, C;C^T,0)(X_n,z) = (0,d)$ [$\because Using\ KKT\ Matrix$].\\
+This is simplified as follows: 
+$(2A_n, C;C^T,0)(X_n,z) = (0,d)$.\\
+From solving these tqo equations by expanding all the variables, we get the following two equations:\\
+$A^Ty=0$ and $Ax+Iy=b$, which are the final two equations.\\
+These equations can also be expressed as the following matrix:
+$(0,A;A^T,I)(x,y) = (0,b)$.
+\end{document}
